@@ -12,7 +12,7 @@ npm install
 npm run type-check
 ```
 
-## Problem 001: `error TS2305: Module '"phoenix"' has no exported member 'Socket'.`
+## Problem 01
 
 ```sh
 $ npm run type-check
