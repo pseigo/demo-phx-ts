@@ -20,16 +20,30 @@
 // Include phoenix_html to handle method=PUT/DELETE in forms and buttons.
 import "phoenix_html"
 // Establish Phoenix Socket and LiveView configuration.
-import {Socket} from "phoenix"
-import {LiveSocket} from "phoenix_live_view"
-import {hooks as colocatedHooks} from "phoenix-colocated/typetastic_web"
+import { Socket } from "phoenix"
+import { LiveSocket } from "phoenix_live_view"
+//import {hooks as colocatedHooks} from "phoenix-colocated/typetastic_web"
 import topbar from "../vendor/topbar"
 
-const csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
+declare global {
+  interface Window {
+    liveSocket: typeof liveSocket; // via 'phoenix_live_view'
+
+    // 'phoenix_live_reload' does not contain a 'package.json', so cannot add
+    // as an npm dependency to get access to its `class LiveReloader` type.
+    liveReloader: object; // via 'phoenix_live_reload'
+  }
+
+  interface WindowEventMap {
+    "phx:live_reload:attached": CustomEvent; // via 'phoenix_live_reload'
+  }
+}
+
+const csrfToken = document.querySelector("meta[name='csrf-token']")?.getAttribute("content")
 const liveSocket = new LiveSocket("/live", Socket, {
   longPollFallbackMs: 2500,
   params: {_csrf_token: csrfToken},
-  hooks: {...colocatedHooks},
+  //hooks: {...colocatedHooks},
 })
 
 // Show progress bar on live navigation and form submits
@@ -53,7 +67,9 @@ window.liveSocket = liveSocket
 //     2. click on elements to jump to their definitions in your code editor
 //
 if (process.env.NODE_ENV === "development") {
-  window.addEventListener("phx:live_reload:attached", ({detail: reloader}) => {
+  window.addEventListener("phx:live_reload:attached", (e: CustomEvent) => {
+    const { detail: reloader } = e;
+
     // Enable server log streaming to client.
     // Disable with reloader.disableServerLogs()
     reloader.enableServerLogs()
@@ -62,7 +78,7 @@ if (process.env.NODE_ENV === "development") {
     //
     //   * click with "c" key pressed to open at caller location
     //   * click with "d" key pressed to open at function component definition location
-    let keyDown
+    let keyDown: string | null = null
     window.addEventListener("keydown", e => keyDown = e.key)
     window.addEventListener("keyup", _e => keyDown = null)
     window.addEventListener("click", e => {

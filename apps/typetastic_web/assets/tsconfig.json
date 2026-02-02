@@ -25,7 +25,11 @@
     "paths": {
       "*": ["../../../deps/*"]
     },
+    "alwaysStrict": true,
+    "strict": true,
     "allowJs": true,
+    "esModuleInterop": true,
+    "types": ["node", "phoenix"],
     "noEmit": true
   },
   "include": ["js/**/*"]
