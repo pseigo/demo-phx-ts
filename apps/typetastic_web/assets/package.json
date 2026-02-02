@@ -1,0 +1,20 @@
+{
+  "name": "typetastic",
+  "version": "0.0.1-alpha.1",
+  "description": "",
+  "homepage": "https://github.com/pseigo/demo-phx-ts#readme",
+  "bugs": {
+    "url": "https://github.com/pseigo/demo-phx-ts/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pseigo/demo-phx-ts.git"
+  },
+  "license": "MIT",
+  "author": "Peyton Seigo <pseigo@yahoo.com> (https://github.com/pseigo)",
+  "type": "module",
+  "main": "js/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
